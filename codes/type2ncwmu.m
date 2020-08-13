@@ -12,11 +12,11 @@ tau=10^-14;
 
 
 %mu=0.16*et/5;
-%mu=0;
-noofmu=5;
-diffofmu=.04;
-%mumax=mu+(noofmu)*diffofmu;
-%mu=mu+diffofmu;
+mu=0;
+noofmu=7;
+diffofmu=.01;
+mumax=mu+(noofmu)*diffofmu;
+mu=mu+diffofmu;
 
 
 Q=2*10^8;
@@ -28,7 +28,7 @@ v=1*10^6;
 
 
 
-NZ=40;                        %no of values of kz
+NZ=20;                        %no of values of kz
 NX=NZ;
 NY=NZ;
 
@@ -37,17 +37,17 @@ NY=NZ;
 order=10^8;
 upprz1=3.14*order;
 lowrz1=.86*order;
-upprx1=1.14*order;
-lowrx1=-1.14*order;
-uppry1=1.14*order;
-lowry1=-1.14*order;
+upprx1=3.14*order;
+lowrx1=-3.14*order;
+uppry1=3.14*order;
+lowry1=-3.14*order;
 
 upprz2=-lowrz1;
 lowrz2=-upprz1;
-upprx2=1.14*order;
-lowrx2=-1.14*order;
-uppry2=1.14*order;
-lowry2=-1.14*order;
+upprx2=3.14*order;
+lowrx2=-3.14*order;
+uppry2=3.14*order;
+lowry2=-3.14*order;
 
 
 deldiff=abs((upprz1-lowrz1)/(2*2*pi*NZ)); %difference between each value of kz
@@ -72,7 +72,6 @@ ky2=linspace(lowry2,uppry2,NY);
 [kz2,kx2,ky2]=meshgrid(kz2,kx2,ky2);
 %[kz,kx]=meshgrid(kz,kx);
 
-sur=zeros(NZ,NX,NY);
 
 KZ1=linspace(lowrz1,upprz1,NZ-2);
 KX1=linspace(lowrx1,upprx1,NX-2);
@@ -93,8 +92,8 @@ n=30;
 %while mu<=mumax
 %sigp=zeros(noofmu,2*n);
 cp=zeros(1,2*n);
-nernstp=zeros(1,2*n);
-c=linspace(-4,4,n);
+nernstp=zeros(noofmu,2*n);
+c=linspace(.01,4,n);
 
 
 sigt=zeros(1,n);
@@ -102,24 +101,23 @@ alpt=zeros(1,n);
 sigl=zeros(1,n);
 alpl=zeros(1,n);
 
-%{
 thetaH=zeros(1,n);
 thetaP=zeros(1,n);
 nernst=zeros(1,n);
-%}
 
 
-%while s<noofmu
+
+while s<noofmu
     
 
 
-mu=0.02;
-%for i=1:n
+%mu=0.01;
+for i=1:n
     
-    %C1=c(i)*v;
-    %C2=-C1;
-C1=-.5*v;
-C2=-C1;
+    C1=c(i)*v;
+    C2=-C1;
+%C1=-4*v;
+%C2=-C1;
     
     
 H1=zeros(2,2,NZ,NX,NY);
@@ -513,28 +511,31 @@ alpl(i)=alpxx;
 
 %%
 
+thetaH(i)=sigt(i)/sigl(i);
+thetaP(i)=alpt(i)/alpl(i);
+nernst(i)=(thetaP(i)-thetaH(i))*alpl(i)/sigl(i);
 
-i/n*100
-%s/noofmu*100+(i/n*100)/noofmu
-%end
-
-thetaH=sigt./sigl;
-thetaP=alpt./alpl;
-nernst=(thetaP-thetaH).*alpl./sigl;
-
+%i/n*100
+s/noofmu*100+(i/n*100)/noofmu
+end
 %{
 thetaH=sigxy/sigxx;
 thetaP=alpxy/alpxx;
 nernst=(thetaP-thetaH)*alpxy/sigxy
 %}
-%{
+
+%plot(c,alpl)
+%hold on
+
+mu=mu+diffofmu;
+%plot(c,sig)
 for j=1:n
     %sigp(s+1,j)=-sig(n+1-j)*10^12;
-    nernstp(j)=-nernst(n+1-j);
+    nernstp(s+1,j)=-nernst(n+1-j);
 end
 for j=n+1:2*n
     %sigp(s+1,j)=sig(j-n)*10^12;
-    nernstp(j)=nernst(j-n);
+    nernstp(s+1,j)=nernst(j-n);
 end
 %hold on
 
@@ -547,9 +548,21 @@ for j=n+1:2*n
     cp(j)=c(j-n);
 end
 
+
+s=s+1;
+end
+plot(cp,nernstp);
 %}
-%s=s+1;
-%plot(cp,nernstp,'g')
-plot(c,nernst,'b')
+
+    
+%plot(c,sig)
+%plot(c,nernst)
+%hold on
+%{
+plot(c,thetaP);
 hold on
+plot(c,thetaH,'r');
+hold on
+plot(c,nernst*10^4,'g')
+%}
 grid on

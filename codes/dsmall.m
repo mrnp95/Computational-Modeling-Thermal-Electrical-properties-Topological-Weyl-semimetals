@@ -41,12 +41,12 @@ kbolz=8.61733*10^-5;
 %}
 
 charge=1;
-%tau=7.5*10^-19;
-tau=10^-14;
-temp=20;                %temp 100K
+tau=7.5*10^-19;
+%tau=10^-14;
+temp=10;                %temp 100K
 T=temp;                      %%%onsagar coefficient find it's value
 noofT=3;
-Tmax=40;
+Tmax=17;
 h=(4.135*10^-15)/2*3.14;
 kbolz=8.61733*10^-5;
 beta=1/(kbolz*T);
@@ -60,7 +60,7 @@ beralp=1;                      %berry phase nernst contribution for alpxy
 
 
 
-NZ=50;                        %no of values of kz
+NZ=10;                        %no of values of kz
 NX=NZ;
 NY=NZ;
 
@@ -103,7 +103,7 @@ e=-2.*(bt-gm).*(kz).*(kx).*(ky);
 %%%
 
 maxB=60;                             %max value of B
-minB=0.01;                              % min value of B
+minB=1;                              % min value of B
 noofB=20;                              %no of values of B 
 zman=linspace(minB,maxB,noofB);
 
@@ -501,7 +501,7 @@ berry4=1i*berry4;
 %}
 
 
-break
+
 %%
 
 %velocity vx vy vxvy vyvy
@@ -744,7 +744,7 @@ s*100/noofT+(magfld/noofB*100)/noofT
 
 
 end
-break
+
 
 Bp=zeros(2*noofB,1);
 Tnernstp=zeros(2*noofB,1);

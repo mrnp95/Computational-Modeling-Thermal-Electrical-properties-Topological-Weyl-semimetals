@@ -88,7 +88,7 @@ n=30;
 %while mu<=mumax
 sigp=zeros(noofmu,2*n);
 cp=zeros(1,2*n);
-c=linspace(-1,5,n);
+c=linspace(.1,5,n);
 sig=zeros(1,n);
 
 while s<noofmu
@@ -150,7 +150,7 @@ for z=1:NZ
     end
 end
 
-break
+
 %%%
 %Differentiation of Hamiltonian
 delHkx1=zeros(2,2,NZ,NX,NY);

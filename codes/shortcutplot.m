@@ -1,6 +1,6 @@
 
 %plot of kz vs E
-nz=NZ;
+nz=NZ-2;
 plot(kz(nz/2,:,nz/2),E1(nz/2,:,nz/2))
 hold on
 plot(kz(nz/2,:,nz/2),E2(nz/2,:,nz/2),'r')
@@ -8,20 +8,10 @@ hold on
 plot(kz(nz/2,:,nz/2),E3(nz/2,:,nz/2),'g')
 hold on
 plot(kz(nz/2,:,nz/2),E4(nz/2,:,nz/2),'y')
-%%
-%plot of kz vs E/et
-nz=NZ;
-plot(kz(nz/2,:,nz/2),E1(nz/2,:,nz/2)/et)
-hold on
-plot(kz(nz/2,:,nz/2),E2(nz/2,:,nz/2)/et,'r')
-hold on
-plot(kz(nz/2,:,nz/2),E3(nz/2,:,nz/2)/et,'g')
-hold on
-plot(kz(nz/2,:,nz/2),E4(nz/2,:,nz/2)/et,'y')
 
 %%
 %surf of kz,kx vs E  
-nz=NZ;
+nz=NZ-2;
 surf(kz(:,:,nz/2),kx(:,:,nz/2),E1(:,:,nz/2))
 hold on
 surf(kz(:,:,nz/2),kx(:,:,nz/2),E2(:,:,nz/2))
@@ -79,7 +69,6 @@ plot(kz,E4,'y')
 
 %%
 %plot of E vs f
-nz=NZ;
 plot(E1(nz/2,:,nz/2),f1(nz/2,:,nz/2))
 hold on
 plot(E2(nz/2,:,nz/2),f2(nz/2,:,nz/2),'r')
@@ -90,7 +79,6 @@ plot(E4(nz/2,:,nz/2),f4(nz/2,:,nz/2),'y')
  
 %%
 %plot of E vs sf
-nz=NZ;
 plot(E1(nz/2,:,nz/2),sf1(nz/2,:,nz/2))
 hold on
 plot(E2(nz/2,:,nz/2),sf2(nz/2,:,nz/2),'r')
@@ -123,7 +111,6 @@ plot(kz(nz/2,:,nz/2),sf4(nz/2,:,nz/2),'y')
 
 %%
 %plot of E vs dfdE
-nz=NZ;
 plot(E1(nz/2,:,nz/2),df1dE1(nz/2,:,nz/2))
 hold on
 plot(E2(nz/2,:,nz/2),df2dE2(nz/2,:,nz/2),'r')
@@ -134,7 +121,7 @@ plot(E4(nz/2,:,nz/2),df4dE4(nz/2,:,nz/2),'y')
  
 %%
 %plot of kz vs berry
-nz=NZ;
+nz=NZ-2;
 plot(KZ(nz/2,:,nz/2),berry1(nz/2,:,nz/2))
 hold on
 plot(KZ(nz/2,:,nz/2),berry2(nz/2,:,nz/2),'r')
@@ -145,7 +132,7 @@ plot(KZ(nz/2,:,nz/2),berry4(nz/2,:,nz/2),'y')
 
 %%
 %plot of kx vs berry
-nz=NZ;
+nz=NZ+2;
 plot(KX(:,nz/2,nz/2),berry1(:,nz/2,nz/2))
 hold on
 plot(KX(:,nz/2,nz/2),berry2(:,nz/2,nz/2),'r')
@@ -182,7 +169,6 @@ plot(KZ(nz/2,:,nz/2),sxy(nz/2,:,nz/2))
 
 %%
 %plot of kz vs axy
-nz=NZ;
 plot(KZ(nz/2,:,nz/2),axy1(nz/2,:,nz/2))
 hold on
 plot(KZ(nz/2,:,nz/2),axy2(nz/2,:,nz/2),'r')
@@ -192,25 +178,23 @@ hold on
 plot(KZ(nz/2,:,nz/2),axy4(nz/2,:,nz/2),'y')
 %%
 %plot of kz vs vxo
-nz=NZ;
-plot(KZ(nz/2,:,nz/2),vxo1(nz/2,:,nz/2))
+plot(KZ(nz/2,:),vxo1(nz/2,:,nz/2))
 hold on
-plot(KZ(nz/2,:,nz/2),vxo2(nz/2,:,nz/2),'r')
+plot(KZ(nz/2,:),vxo2(nz/2,:,nz/2),'r')
 hold on
-plot(KZ(nz/2,:,nz/2),vxo3(nz/2,:,nz/2),'g')
+plot(KZ(nz/2,:),vxo3(nz/2,:,nz/2),'g')
 hold on
-plot(KZ(nz/2,:,nz/2),vxo4(nz/2,:,nz/2),'y')
+plot(KZ(nz/2,:),vxo4(nz/2,:,nz/2),'y')
 
 %%
 %surf of kz,kx vs vxo
-nz=NZ;
-surf(KZ(:,:,nz/2),KX(:,:,nz/2),vxo1(:,:,nz/2))
+surf(KZ(:,:),KX(:,:),vxo1(:,:,nz/2))
 hold on
-surf(KZ(:,:,nz/2),KX(:,:,nz/2),vxo2(:,:,nz/2))
+surf(KZ(:,:),KX(:,:),vxo2(:,:,nz/2))
 hold on
-surf(KZ(:,:,nz/2),KX(:,:,nz/2),vxo2(:,:,nz/2))
+surf(KZ(:,:),KX(:,:),vxo2(:,:,nz/2))
 hold on
-surf(KZ(:,:,nz/2),KX(:,:,nz/2),vxo2(:,:,nz/2))
+surf(KZ(:,:),KX(:,:),vxo2(:,:,nz/2))
 
 %%
 %plot of kz vs vyo

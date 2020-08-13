@@ -2,7 +2,7 @@ clear
 %clc
 
 
-temp=200;                %temp 100K
+temp=300;                %temp 100K
 T=temp;                      %%%onsagar coefficient find it's value
 kbolz=8.61733*10^-5;
 beta=1/(kbolz*T);
@@ -12,11 +12,11 @@ tau=10^-14;
 
 
 %mu=0.16*et/5;
-mu=0;
+%mu=0;
 noofmu=5;
-diffofmu=.002;
-mumax=mu+(noofmu)*diffofmu;
-mu=mu+diffofmu;
+diffofmu=.04;
+%mumax=mu+(noofmu)*diffofmu;
+%mu=mu+diffofmu;
 
 
 Q=2*10^8;
@@ -37,17 +37,17 @@ NY=NZ;
 order=10^8;
 upprz1=3.14*order;
 lowrz1=.86*order;
-upprx1=1.14*order;
-lowrx1=-1.14*order;
-uppry1=1.14*order;
-lowry1=-1.14*order;
+upprx1=3.14*order;
+lowrx1=-3.14*order;
+uppry1=3.14*order;
+lowry1=-3.14*order;
 
 upprz2=-lowrz1;
 lowrz2=-upprz1;
-upprx2=1.14*order;
-lowrx2=-1.14*order;
-uppry2=1.14*order;
-lowry2=-1.14*order;
+upprx2=3.14*order;
+lowrx2=-3.14*order;
+uppry2=3.14*order;
+lowry2=-3.14*order;
 
 
 deldiff=abs((upprz1-lowrz1)/(2*2*pi*NZ)); %difference between each value of kz
@@ -87,13 +87,12 @@ KY2=linspace(lowry2,uppry2,NY-2);
 %[Kz,Kx,Ky]=meshgrid(Kz,KX,Ky);
 [KZ2,KX2,KY2]=meshgrid(KZ2,KX2,KY2);
 
-sur=zeros(NZ,NX,NY);
-
 s=0;
 n=30;
 %while mu<=mumax
 %sigp=zeros(noofmu,2*n);
 cp=zeros(1,2*n);
+nernstp=zeros(1,2*n);
 c=linspace(-4,4,n);
 
 
@@ -101,21 +100,24 @@ sigt=zeros(1,n);
 alpt=zeros(1,n);
 sigl=zeros(1,n);
 alpl=zeros(1,n);
+
+%{
 thetaH=zeros(1,n);
 thetaP=zeros(1,n);
 nernst=zeros(1,n);
+%}
 
 
 %while s<noofmu
     
 
 
-mu=0.05;
+mu=0.02;
 for i=1:n
     
     C1=c(i)*v;
     C2=-C1;
-%C1=-2*v;
+%C1=-4*v;
 %C2=-C1;
     
     
@@ -165,7 +167,7 @@ for z=1:NZ
     end
 end
 
-%break
+
 %%%
 %Differentiation of Hamiltonian
 delHkx1=zeros(2,2,NZ,NX,NY);
@@ -271,7 +273,7 @@ berry2=real(1i*(berry23+berry24));
 berry3=real(1i*(berry31+berry32));
 berry4=real(1i*(berry41+berry42));
 %}
-%break
+
 %%
 %velocity vx vy vxvy vyvy
 vxo11=zeros(NZ-2,NX-2,NY-2);
@@ -442,15 +444,13 @@ axy2=axy21+axy22;
 alpxy1=trapzoidl(axy1,Nz,Nx,Ny,deldiff);
 alpxy2=trapzoidl(axy2,Nz,Nx,Ny,deldiff);
 alpxy=alpxy1+alpxy2;
-%alpxy=alpxy1;
-%alpxy=alpxy2;
 alpxy=(kbolz*charge/h)*alpxy;
 
 
 %alpxy;
 alpt(i)=alpxy;
 
-%break
+
 %%
 %sigxx calculation
 sxx11=zeros(Nz,Nx,Ny);
@@ -479,6 +479,7 @@ sigxx=(charge^2)*tau*sigxx;
 
 %sigxx;
 sigl(i)=sigxx;
+
 %%
 %alpxx calculation
 axx11=zeros(Nz,Nx,Ny);
@@ -511,30 +512,31 @@ alpl(i)=alpxx;
 
 %%
 
-thetaH(i)=sigt(i)/sigl(i);
-thetaP(i)=alpt(i)/alpl(i);
-nernst(i)=(thetaP(i)-thetaH(i))*alpl(i)/sigl(i);
 
 i/n*100
+%s/noofmu*100+(i/n*100)/noofmu
 end
+
+thetaH=sigt./sigl;
+thetaP=alpt./alpl;
+nernst=(thetaP-thetaH).*alpl./sigl;
+
 %{
 thetaH=sigxy/sigxx;
 thetaP=alpxy/alpxx;
 nernst=(thetaP-thetaH)*alpxy/sigxy
-
 %}
-
 %{
-mu=mu+diffofmu;
-%plot(c,sig)
 for j=1:n
-    sigp(s+1,j)=-sig(n+1-j)*10^12;
+    %sigp(s+1,j)=-sig(n+1-j)*10^12;
+    nernstp(j)=-nernst(n+1-j);
 end
 for j=n+1:2*n
-    sigp(s+1,j)=sig(j-n)*10^12;
+    %sigp(s+1,j)=sig(j-n)*10^12;
+    nernstp(j)=nernst(j-n);
 end
 %hold on
-s=s+1;
+
 
 %end
 for j=1:n
@@ -543,8 +545,10 @@ end
 for j=n+1:2*n
     cp(j)=c(j-n);
 end
+
 %}
-    
-%plot(c,sig)
-plot(c,nernst)
-%hold on
+%s=s+1;
+%plot(cp,nernstp,'g')
+plot(c,nernst,'b')
+hold on
+grid on
