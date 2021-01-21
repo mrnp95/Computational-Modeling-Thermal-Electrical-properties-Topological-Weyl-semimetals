@@ -1,4 +1,4 @@
-# Computational-study-Thermal-Electrical-properties-Topological-Weyl-semimetals
+# Computational-Modeling-Thermal-Electrical-properties-Topological-Weyl-semimetals
 This repo contains code for developing a computational model of topological Weyl semimetals (WSM) and studying thermal ans electrical properties of the system. The results obtained from this simulation has been published in [Europian Journal of Physics B, in 2018](https://link.springer.com/article/10.1140/epjb/e2017-80437-4). The brief explanation of physics, details of the thermal and electrical properties formulations, and the conclusions obtained from the simulation are also presented in the paper.  
 
 ## Abstract
